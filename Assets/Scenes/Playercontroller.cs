@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class ObjectEvent : UnityEvent <object> { }
+[System.Serializable] public class ObjectEvent : UnityEvent <object> { }
+
 
 public class Playercontroller : MonoBehaviour
 {
@@ -16,8 +16,9 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] private float balldist = 20f;
     [SerializeField] private LayerMask groundtype;
     [SerializeField] private GameObject ball = null;
-	[SerializeField] private float angleSpeed = 1f;
+	//[SerializeField] private Transform ballAngle;
 	[SerializeField] private float ballSpeed = 100f;
+
 
     private bool grounded;
     private bool carrying;
@@ -25,13 +26,13 @@ public class Playercontroller : MonoBehaviour
     private bool facingR = true;
     private Rigidbody2D body;
     private float distV;
-	private float angle;
-	private float polarity = 1;
-	private bool rotationStart = true;
+	private Vector2 ballDirection;
+	private float ballAngle;
 
 
     public ObjectEvent BallPullEvent;
     // Update is called once per frame
+
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class Playercontroller : MonoBehaviour
         grounded = false;
 		if(carrying) ball.transform.position = body.transform.position;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.5f, groundtype);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 1.5f, groundtype);
         foreach (Collider2D collider in colliders)
         {
             if (collider.gameObject != gameObject)
@@ -62,7 +63,7 @@ public class Playercontroller : MonoBehaviour
         body.velocity = v;
     }
 
-    public void Move(float move, bool jump, bool carry, bool toss)
+    public void Move(float move, bool jump, bool carry)
     {
         bool carriable = false;
         
@@ -70,7 +71,7 @@ public class Playercontroller : MonoBehaviour
         {
             if (!carrying)
             {
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.1f);
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.5f);
                 foreach (Collider2D collider in colliders)
                 {
                     if (collider.gameObject == ball)
@@ -87,12 +88,12 @@ public class Playercontroller : MonoBehaviour
 				Debug.Log(carriable);
             
             move *= carryspeed;
-			} else
+			} 
+			else
 			{
 				if (carrying)
 				{
 					carrying = false;
-					//throw event?
 				}
 			}
 		}
@@ -122,8 +123,15 @@ public class Playercontroller : MonoBehaviour
             grounded = false;
 			//Debug.Log((1-(distV-balldist)));
             if (!carrying) body.AddForce(new Vector2(0f, (1-(distV/balldist))*jumpforce));
-			else body.AddForce(new Vector2(0f, jumpforce*0.2f));
-        }
+			else 
+			{	
+				body.AddForce(new Vector2(0f, jumpforce*0.2f));
+		
+				ballDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ball.transform.position;
+				ballAngle = Mathf.Atan2(ballDirection.y, ballDirection.x) * Mathf.Rad2Deg;
+				ball.transform.rotation = Quaternion.Euler(0f, 0f, ballAngle - 90f);
+			}
+		}
     }
 
     private void Flip()
@@ -134,51 +142,4 @@ public class Playercontroller : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-	
-	public void tosser(bool hold, bool release)
-	{
-		if (carrying && hold)
-		{
-			if(rotationStart && facingR)
-			{
-				ball.transform.rotation.z = 225;
-				polarity = 1;
-			}
-			else if(rotationStart && !facingR)
-			{
-				ball.transform.rotation.z = 135;
-				polarity = -1;
-			}
-			else if (facingR && ball.transform.rotation.z >= 355)
-			{
-				polarity = -1;
-				ball.transform.rotation.z += angleSpeed * polarity;
-			} 
-			else if (facingR && ball.transformation.rotation.z <= 224) 
-			{
-				polarity = 1;
-				ball.transform.rotation.z += angleSpeed * polarity;
-			} 
-			else if (!facingR && ball.transform.rotation.z <= 5)
-			{
-				polarity = 1;
-				ball.transform.rotation.z += angleSpeed * polarity;
-			} 
-			else if (!facingR && ball.transform.rotation.z >= 136)
-			{
-				polarity = -1;
-				ball.transform.rotation.z += angleSpeed * polarity;
-			} 
-			else 
-			{
-				ball.transform.rotation.z += angleSpeed * polarity;
-			}
-			//Spawn aiming reticule, if it doesnt exist
-			ball.transform.rotation.z += angleSpeed * polarity;
-		}
-		else if (carrying && release)
-		{
-			throw the ball, delete reticule, carrying to false
-		}
-	}
 }

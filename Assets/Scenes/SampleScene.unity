@@ -221,12 +221,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9339623, g: 0.7997519, b: 0.048460312, a: 1}
+  m_Sprite: {fileID: 21300000, guid: da149895eaab52944903f234afe31929, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.2, y: 1.22}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -241,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 442470629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.42, y: 0.64, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -513,7 +513,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 395f6b9556f14704790df6035be6ee3a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7092a14727c98174a9ce5872f336d40f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -532,8 +532,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1062550239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: 0.58, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.3, y: 1.094, z: 0}
+  m_LocalScale: {x: 0.522, y: 0.522, z: 0.522}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -551,18 +551,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0009019375, y: 0.06794681}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1.84, y: 3.87}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.24494651, y: 0.3766311}
+  m_Size: {x: 1.1, y: 3.7}
   m_EdgeRadius: 0
 --- !u!114 &1062550244
 MonoBehaviour:
@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d1a4ad55f1fd9428c5c358696b01cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpforce: 500
+  jumpforce: 700
   carryspeed: 0.3
   smoothing: 0.05
   snapback: 5
@@ -586,6 +586,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   ball: {fileID: 442470629}
+  angleSpeed: 1
+  ballSpeed: 100
   BallPullEvent:
     m_PersistentCalls:
       m_Calls:
@@ -630,7 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1062550244}
-  spd: 40
+  spd: 30
 --- !u!1 &1554690635
 GameObject:
   m_ObjectHideFlags: 0

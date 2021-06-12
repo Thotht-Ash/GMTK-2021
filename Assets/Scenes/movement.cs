@@ -7,7 +7,7 @@ public class movement : MonoBehaviour
     // Start is called before the first frame update
     public Playercontroller controller;
 
-    public float spd = 40f;
+    [SerializeField] public float spd = 20f;
 
 
     float horizontal = 0f;
