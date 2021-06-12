@@ -149,6 +149,30 @@ public class Playercontroller : MonoBehaviour
 				ball.transform.rotation.z = 135;
 				polarity = -1;
 			}
+			else if (facingR && ball.transform.rotation.z >= 355)
+			{
+				polarity = -1;
+				ball.transform.rotation.z += angleSpeed * polarity;
+			} 
+			else if (facingR && ball.transformation.rotation.z <= 224) 
+			{
+				polarity = 1;
+				ball.transform.rotation.z += angleSpeed * polarity;
+			} 
+			else if (!facingR && ball.transform.rotation.z <= 5)
+			{
+				polarity = 1;
+				ball.transform.rotation.z += angleSpeed * polarity;
+			} 
+			else if (!facingR && ball.transform.rotation.z >= 136)
+			{
+				polarity = -1;
+				ball.transform.rotation.z += angleSpeed * polarity;
+			} 
+			else 
+			{
+				ball.transform.rotation.z += angleSpeed * polarity;
+			}
 			//Spawn aiming reticule, if it doesnt exist
 			ball.transform.rotation.z += angleSpeed * polarity;
 		}
