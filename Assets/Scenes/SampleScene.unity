@@ -246,17 +246,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!247 &442470634
-ConstantForce2D:
+--- !u!114 &442470634
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442470629}
   m_Enabled: 1
-  m_Force: {x: 1, y: 0}
-  m_RelativeForce: {x: 0, y: 0}
-  m_Torque: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 307a90ad2b291db44855419ce4718eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  man: {fileID: 1062550239}
+  manbody: {fileID: 1062550240}
+  groundcheck: {fileID: 442470633}
+  balldist: 3
+  smoothing: 0.05
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +586,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   ball: {fileID: 442470629}
+  BallPullEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 307a90ad2b291db44855419ce4718eb7, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MoveBall
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &1062550245
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -791,7 +812,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1833202025}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6a53bacc008697942bc3c9cf5f4deec7, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
