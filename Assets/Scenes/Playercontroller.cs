@@ -90,23 +90,7 @@ public class Playercontroller : MonoBehaviour
             }
         }
         Vector2 v = body.velocity;
-        if (locked[0] && v.y > 0)
-        {
-            v.y = -snapback;
-        }
-        else if (locked[1] && v.y < 0) // HERE BE HILARIOUS BUGS
-        {
-            v.y = snapback;
-        }
 
-        if (locked[2] && v.x < 0) //these should be less hilarious
-        {
-            v.x = snapback;
-        }
-        else if (locked[3] && v.x > 0)
-        {
-            v.x = -snapback;
-        }
         body.velocity = v;
     }
 
