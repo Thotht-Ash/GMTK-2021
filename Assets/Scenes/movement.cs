@@ -12,6 +12,7 @@ public class movement : MonoBehaviour
 
     float horizontal = 0f;
     bool jmp;
+	bool carry;
     // Update is called once per frame
     void Update()
     {
@@ -20,11 +21,16 @@ public class movement : MonoBehaviour
         {
             jmp = true;
         }
+		if (Input.GetButtonDown("Fire1"))
+		{
+			carry = true;
+		}
     }
 
     private void FixedUpdate()
     {
-        controller.Move(horizontal * Time.fixedDeltaTime, jmp, false);
+        controller.Move(horizontal * Time.fixedDeltaTime, jmp, carry);
         jmp = false;
+		carry = false;
     }
 }

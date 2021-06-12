@@ -16,6 +16,8 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] private float balldist = 20f;
     [SerializeField] private LayerMask groundtype;
     [SerializeField] private GameObject ball = null;
+	[SerializeField] private float angleSpeed = 1f;
+	[SerializeField] private float ballSpeed = 100f;
 
     private bool grounded;
     private bool carrying;
@@ -23,6 +25,9 @@ public class Playercontroller : MonoBehaviour
     private bool facingR = true;
     private Rigidbody2D body;
     private float distV;
+	private float angle;
+	private float polarity = 1;
+	private bool rotationStart = true;
 
 
     public ObjectEvent BallPullEvent;
@@ -40,6 +45,7 @@ public class Playercontroller : MonoBehaviour
     {
         //bool wasGrounded = grounded;
         grounded = false;
+		if(carrying) ball.transform.position = body.transform.position;
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.5f, groundtype);
         foreach (Collider2D collider in colliders)
@@ -56,39 +62,44 @@ public class Playercontroller : MonoBehaviour
         body.velocity = v;
     }
 
-    public void Move(float move, bool jump, bool carry)
+    public void Move(float move, bool jump, bool carry, bool toss)
     {
         bool carriable = false;
-
-        if (carry)
+        
+		if (carry)
         {
             if (!carrying)
             {
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.2f);
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(groundcheck.position, 0.1f);
                 foreach (Collider2D collider in colliders)
                 {
                     if (collider.gameObject == ball)
                     {
                         carriable = true;
+						ball.transform.position = body.transform.position;
                     }
                 }
                 if (carriable)
                 {
                     carrying = true; //this needs to send an Event
+					ball.transform.position = body.transform.position;
                 }
-            }
+				Debug.Log(carriable);
+            
             move *= carryspeed;
-        } else
-        {
-            if (carrying)
-            {
-                carrying = false;
-                //throw event?
-            }
-        }
+			} else
+			{
+				if (carrying)
+				{
+					carrying = false;
+					//throw event?
+				}
+			}
+		}
+		
 
         Vector2 targetV;
-        if (distV >= balldist)
+        if ((distV >= balldist) || carrying)
         {
             targetV = new Vector2(move * carryspeed * 10f, body.velocity.y);
         }
@@ -109,7 +120,9 @@ public class Playercontroller : MonoBehaviour
         if (grounded && jump)
         {
             grounded = false;
-            body.AddForce(new Vector2(0f, (1-(distV-balldist))*jumpforce));
+			//Debug.Log((1-(distV-balldist)));
+            if (!carrying) body.AddForce(new Vector2(0f, (1-(distV/balldist))*jumpforce));
+			else body.AddForce(new Vector2(0f, jumpforce*0.2f));
         }
     }
 
@@ -121,5 +134,27 @@ public class Playercontroller : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+	
+	public void tosser(bool hold, bool release)
+	{
+		if (carrying && hold)
+		{
+			if(rotationStart && facingR)
+			{
+				ball.transform.rotation.z = 225;
+				polarity = 1;
+			}
+			else if(rotationStart && !facingR)
+			{
+				ball.transform.rotation.z = 135;
+				polarity = -1;
+			}
+			//Spawn aiming reticule, if it doesnt exist
+			ball.transform.rotation.z += angleSpeed * polarity;
+		}
+		else if (carrying && release)
+		{
+			throw the ball, delete reticule, carrying to false
+		}
+	}
 }
-
